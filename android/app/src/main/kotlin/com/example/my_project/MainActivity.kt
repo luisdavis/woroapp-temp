@@ -1,4 +1,4 @@
-package com.mycompany.worotest
+package com.wellintonoro.woro
 
 import io.flutter.embedding.android.FlutterActivity
 
