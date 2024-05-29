@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
@@ -8,6 +7,7 @@ import 'flutter_flow/internationalization.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
+import 'my_http_client.dart'; // Import the custom HttpClient
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +22,6 @@ void main() async {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   State<MyApp> createState() => _MyAppState();
 
@@ -92,7 +91,6 @@ class NavBarPage extends StatefulWidget {
   _NavBarPageState createState() => _NavBarPageState();
 }
 
-/// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
   String _currentPageName = 'HomePage';
   late Widget? _currentPage;
@@ -245,5 +243,16 @@ class _NavBarPageState extends State<NavBarPage> {
         ],
       ),
     );
+  }
+}
+
+Future<String> fetchData() async {
+  final client = MyHttpClient.getClient();
+  final response = await client.get(Uri.parse('https://self-signed.badssl.com/'));
+
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to load data');
   }
 }

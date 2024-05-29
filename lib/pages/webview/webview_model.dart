@@ -1,17 +1,16 @@
-import '/flutter_flow/flutter_flow_util.dart';
-import 'webview_widget.dart' show WebviewWidget;
+// import 'webview_widget.dart' show WebviewWidget;
 import 'package:flutter/material.dart';
 
-class WebviewModel extends FlutterFlowModel<WebviewWidget> {
-  ///  State fields for stateful widgets in this page.
-
+class WebviewModel extends ChangeNotifier {
   final unfocusNode = FocusNode();
 
-  @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    // Initialize any state or start any operations if needed
+  }
 
   @override
   void dispose() {
     unfocusNode.dispose();
+    super.dispose();
   }
 }
