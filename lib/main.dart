@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+
+import 'auth/custom_auth/auth_util.dart';
+import 'auth/custom_auth/custom_auth_user_provider.dart';
+
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
@@ -15,6 +19,8 @@ void main() async {
   usePathUrlStrategy();
 
   await FlutterFlowTheme.initialize();
+
+  await authManager.initialize();
 
   runApp(const MyApp());
 }
@@ -33,6 +39,8 @@ class _MyAppState extends State<MyApp> {
   Locale? _locale;
   ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
+  late Stream<WoroAuthUser> userStream;
+
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
 
@@ -42,6 +50,13 @@ class _MyAppState extends State<MyApp> {
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
+    userStream = woroAuthUserStream()
+      ..listen((user) => _appStateNotifier.update(user));
+
+    Future.delayed(
+      const Duration(milliseconds: 1000),
+      () => _appStateNotifier.stopShowingSplashImage(),
+    );
   }
 
   void setLocale(String language) {
@@ -107,8 +122,7 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'HomePage': const HomePageWidget(),
       'webview': const WebviewWidget(),
-      'webviewCopy': const WebviewCopyWidget(),
-      'webviewCopyCopy': const WebviewCopyCopyWidget(),
+      'login': const LoginWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -176,7 +190,7 @@ class _NavBarPageState extends State<NavBarPage> {
                   size: currentIndex == 1 ? 24.0 : 24.0,
                 ),
                 Text(
-                  'google',
+                  'Terminal',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 1
@@ -193,45 +207,17 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  currentIndex == 2
-                      ? Icons.local_fire_department_rounded
-                      : Icons.local_fire_department_outlined,
+                  Icons.login,
                   color: currentIndex == 2
                       ? FlutterFlowTheme.of(context).primary
                       : FlutterFlowTheme.of(context).secondaryText,
-                  size: currentIndex == 2 ? 24.0 : 24.0,
+                  size: 24.0,
                 ),
                 Text(
-                  'Terminal\n',
+                  'Login',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 2
-                        ? FlutterFlowTheme.of(context).primary
-                        : FlutterFlowTheme.of(context).secondaryText,
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  currentIndex == 3
-                      ? Icons.local_fire_department_rounded
-                      : Icons.local_fire_department_outlined,
-                  color: currentIndex == 3
-                      ? FlutterFlowTheme.of(context).primary
-                      : FlutterFlowTheme.of(context).secondaryText,
-                  size: currentIndex == 3 ? 24.0 : 24.0,
-                ),
-                Text(
-                  'flutter\n',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 3
                         ? FlutterFlowTheme.of(context).primary
                         : FlutterFlowTheme.of(context).secondaryText,
                     fontSize: 11.0,

@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'home_page_model.dart';
@@ -74,15 +75,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
               floating: false,
               backgroundColor: FlutterFlowTheme.of(context).primary,
               automaticallyImplyLeading: false,
-              title: Text(
-                'Page Title',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: 'Sora',
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      letterSpacing: 0.0,
-                    ),
-              ).animateOnPageLoad(animationsMap['textOnPageLoadAnimation']!),
+              title: Align(
+                alignment: const AlignmentDirectional(0.0, -1.0),
+                child: AutoSizeText(
+                  'Wellington Oro',
+                  textAlign: TextAlign.center,
+                  style: FlutterFlowTheme.of(context).headlineLarge.override(
+                        fontFamily: 'Sora',
+                        color: FlutterFlowTheme.of(context).alternate,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w800,
+                      ),
+                  minFontSize: 32.0,
+                ).animateOnPageLoad(animationsMap['textOnPageLoadAnimation']!),
+              ),
               actions: const [],
               centerTitle: false,
               elevation: 2.0,
